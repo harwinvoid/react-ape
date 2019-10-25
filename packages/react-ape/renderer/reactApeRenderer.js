@@ -13,7 +13,6 @@ import reactApeComponent from './reactApeComponent';
 import {scaleDPI, clearCanvas} from './core/canvas';
 import {renderElement, renderQueue} from './core/render';
 import {precacheFiberNode, updateFiberProps} from './reactApeComponentTree';
-import devToolsConfig from './config/devtools';
 import {
   now as FrameSchedulingNow,
   cancelDeferredCallback as FrameSchedulingCancelDeferredCallback,
@@ -223,8 +222,10 @@ const ReactApeFiber = reconciler({
 });
 
 ReactApeFiber.injectIntoDevTools({
-  ...devToolsConfig,
-  findHostInstanceByFiber: ReactApeFiber.findHostInstance,
+  bundleType: process.env.NODE_ENV === 'production' ? 0 : 1,
+  version: '0.1.0',
+  rendererPackageName: 'react-ape',
+  findFiberByHostInstance: () => null,
 });
 
 const defaultContainer = {};
